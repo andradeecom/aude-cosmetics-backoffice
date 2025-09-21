@@ -4,14 +4,14 @@ import { SignInForm } from "@/components/SignInForm";
 import type { SignInFormSchema } from "@/pages/auth/sign-in/SignInFormSchema";
 
 export default function SignInPage() {
-  const { login } = useAuth();
+  const { signin } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (values: SignInFormSchema) => {
     const { email, password } = values;
 
     try {
-      const success = await login(email, password);
+      const success = await signin(email, password);
       if (success) {
         navigate("/dashboard");
       } else {

@@ -1,113 +1,102 @@
-import { Outlet, Link, useNavigate } from "react-router";
+import { Outlet, Link, useNavigate, useLocation } from "react-router";
 import { useAuth } from "../../hooks/useAuth";
 import { Button } from "@/components/ui/button";
+import { Home, Package, PaintRoller, Settings, type LucideIcon } from "lucide-react";
+
+const sidebarLinks = [
+  { href: "/dashboard", label: "Home", icon: Home },
+  { href: "/dashboard/products", label: "Products", icon: Package },
+  { href: "/dashboard/products-variants", label: "Product Variants", icon: PaintRoller },
+  { href: "/dashboard/settings", label: "Settings", icon: Settings },
+];
 
 export default function DashboardLayout() {
-  const { logout, user } = useAuth();
+  const { signout, user } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    logout();
-    navigate("/login");
+    signout();
+    navigate("/sign-in");
   };
 
   return (
-    <div style={{ minHeight: "100vh", backgroundColor: "#f8f9fa" }}>
+    <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header
-        style={{
-          backgroundColor: "white",
-          padding: "1rem 2rem",
-          borderBottom: "1px solid #dee2e6",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <h1 style={{ margin: 0, color: "#333" }}>Aude Cosmetics Backoffice</h1>
-        <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+      <header className="bg-white px-4 py-4 md:px-8 border-b border-gray-200 flex justify-between items-center">
+        <h1 className="m-0 text-gray-800 text-xl md:text-2xl font-semibold">Aude Cosmetics Backoffice</h1>
+        <div className="flex items-center gap-4">
           <span>Welcome, {user?.email}</span>
           <Button onClick={handleLogout}>Logout</Button>
         </div>
       </header>
 
-      <div style={{ display: "flex" }}>
+      <div className="flex flex-col md:flex-row">
         {/* Sidebar */}
-        <nav
-          style={{
-            width: "250px",
-            backgroundColor: "white",
-            padding: "2rem 1rem",
-            borderRight: "1px solid #dee2e6",
-            minHeight: "calc(100vh - 80px)",
-          }}
-        >
-          <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-            <li style={{ marginBottom: "1rem" }}>
-              <Link
-                to="/dashboard"
-                style={{
-                  textDecoration: "none",
-                  color: "#333",
-                  display: "block",
-                  padding: "0.75rem",
-                  borderRadius: "4px",
-                  backgroundColor: "#f8f9fa",
-                }}
-              >
-                🏠 Home
-              </Link>
+        <Sidebar>
+          <SidebarMenu sidebarLinks={sidebarLinks} />
+        </Sidebar>
+        {/* <nav className="w-full md:w-64 bg-white p-4 md:p-8 border-b md:border-b-0 md:border-r border-gray-200 md:min-h-[calc(100vh-80px)]">
+          <ul className="list-none p-0 m-0 space-y-2">
+            <li>
+              <SidebarLink href="/dashboard">🏠 Home</SidebarLink>
             </li>
-            <li style={{ marginBottom: "1rem" }}>
-              <Link
-                to="/dashboard/products"
-                style={{
-                  textDecoration: "none",
-                  color: "#333",
-                  display: "block",
-                  padding: "0.75rem",
-                  borderRadius: "4px",
-                }}
-              >
-                📦 Products
-              </Link>
+            <li>
+              <SidebarLink href="/dashboard/products">📦 Products</SidebarLink>
             </li>
-            <li style={{ marginBottom: "1rem" }}>
-              <Link
-                to="/dashboard/products-variants"
-                style={{
-                  textDecoration: "none",
-                  color: "#333",
-                  display: "block",
-                  padding: "0.75rem",
-                  borderRadius: "4px",
-                }}
-              >
-                🎨 Product Variants
-              </Link>
+            <li>
+              <SidebarLink href="/dashboard/products-variants">🎨 Product Variants</SidebarLink>
             </li>
-            <li style={{ marginBottom: "1rem" }}>
-              <Link
-                to="/dashboard/settings"
-                style={{
-                  textDecoration: "none",
-                  color: "#333",
-                  display: "block",
-                  padding: "0.75rem",
-                  borderRadius: "4px",
-                }}
-              >
-                ⚙️ Settings
-              </Link>
+            <li>
+              <SidebarLink href="/dashboard/settings">⚙️ Settings</SidebarLink>
             </li>
           </ul>
-        </nav>
+        </nav> */}
 
         {/* Main Content */}
-        <main style={{ flex: 1, padding: "2rem" }}>
+        <main className="flex-1 p-4 md:p-8">
           <Outlet />
         </main>
       </div>
     </div>
   );
 }
+
+const Sidebar = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <div className="w-full md:w-64 bg-white p-4 md:p-8 border-b md:border-b-0 md:border-r border-gray-200 md:min-h-[calc(100vh-80px)]">
+      {children}
+    </div>
+  );
+};
+
+const SidebarMenu = ({ sidebarLinks }: { sidebarLinks: { href: string; label: string; icon: LucideIcon }[] }) => {
+  return (
+    <nav>
+      <ul className="list-none p-0 m-0 space-y-2">
+        {sidebarLinks.map((link) => (
+          <li key={link.href}>
+            <SidebarLink href={link.href}>
+              <link.icon className="size-5" />
+              {link.label}
+            </SidebarLink>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
+};
+
+const SidebarLink = ({ href, children }: { href: string; children: React.ReactNode }) => {
+  const location = useLocation();
+
+  return (
+    <Link
+      to={href}
+      className={`no-underline text-gray-800 flex p-3 rounded-lg transition-colors items-center gap-3 ${
+        location.pathname === href ? "bg-gray-200" : "hover:bg-gray-50"
+      }`}
+    >
+      {children}
+    </Link>
+  );
+};
