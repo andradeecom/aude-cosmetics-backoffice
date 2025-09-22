@@ -21,7 +21,7 @@ export function SignInForm({ onSubmit }: SignInFormProps) {
   });
 
   return (
-    <Card>
+    <Card className="w-full">
       <CardHeader className="text-center">
         <CardTitle className="text-xl">Welcome back</CardTitle>
         <CardDescription>Login with your email and password</CardDescription>

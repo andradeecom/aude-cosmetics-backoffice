@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
 import api from "@/services/api";
-import { setCookie, removeCookie } from "@/services/cookie";
+import { setCookie, removeCookie, getCookie } from "@/services/cookie";
 import type { ErrorResponse, SignInResponse, User } from "@/types/sign-in-response";
 import { eventBus, AUTH_EVENTS } from "@/services/events";
 
@@ -15,7 +15,8 @@ interface AuthResult {
   error?: string;
 }
 
-const TOKEN_EXPIRY = 7; // days
+const TOKEN_EXPIRY = import.meta.env.VITE_TOKEN_EXPIRY || 7; // days
+const REFRESH_TOKEN_EXPIRY = import.meta.env.VITE_REFRESH_TOKEN_EXPIRY || 30; // days
 
 export const AuthService = {
   /**
@@ -31,8 +32,8 @@ export const AuthService = {
 
       // Store tokens in cookies (httpOnly would be better but requires server)
       setCookie("accessToken", accessToken, TOKEN_EXPIRY);
-      setCookie("refreshToken", refreshToken, TOKEN_EXPIRY * 2);
-      
+      setCookie("refreshToken", refreshToken, REFRESH_TOKEN_EXPIRY);
+
       // Emit logged in event
       eventBus.emit(AUTH_EVENTS.LOGGED_IN, { user });
 
@@ -56,7 +57,7 @@ export const AuthService = {
     // Remove tokens from cookies
     removeCookie("accessToken");
     removeCookie("refreshToken");
-    
+
     // Emit logged out event
     eventBus.emit(AUTH_EVENTS.LOGGED_OUT);
   },
@@ -96,6 +97,42 @@ export const AuthService = {
       return false;
     } catch (_error) {
       console.error("Error refreshing token:", _error);
+      return false;
+    }
+  },
+
+  /**
+   * Check if token is about to expire and refresh it proactively
+   * @param expiryThreshold Time in minutes before expiry to trigger refresh (default: 5)
+   * @returns Promise<boolean> indicating if refresh was attempted
+   */
+  async checkTokenExpiration(expiryThreshold: number = 5): Promise<boolean> {
+    try {
+      const token = getCookie("accessToken");
+      if (!token) return false;
+
+      // Try to decode the token to get expiration time
+      // This assumes JWT format with base64 encoding
+      try {
+        const payload = JSON.parse(atob(token.split(".")[1]));
+        if (!payload.exp) return false;
+
+        const expiryTime = payload.exp * 1000; // Convert to milliseconds
+        const currentTime = Date.now();
+        const timeToExpiry = expiryTime - currentTime;
+
+        // If token will expire within the threshold, refresh it
+        if (timeToExpiry < expiryThreshold * 60 * 1000) {
+          console.log("Token expiring soon, refreshing...");
+          return await this.refreshToken();
+        }
+      } catch (e) {
+        console.error("Error decoding token:", e);
+      }
+
+      return false;
+    } catch (error) {
+      console.error("Error checking token expiration:", error);
       return false;
     }
   },

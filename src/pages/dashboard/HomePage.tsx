@@ -1,4 +1,4 @@
-export default function Home() {
+export default function HomePage() {
   return (
     <div>
       <h2 style={{ marginBottom: "2rem", color: "#333" }}>Dashboard Overview</h2>

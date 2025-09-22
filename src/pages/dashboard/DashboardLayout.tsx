@@ -21,11 +21,11 @@ export default function DashboardLayout() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
+      {/* Header --> Extract to component */}
       <header className="bg-white px-4 py-4 md:px-8 border-b border-gray-200 flex justify-between items-center">
         <h1 className="m-0 text-gray-800 text-xl md:text-2xl font-semibold">Aude Cosmetics Backoffice</h1>
         <div className="flex items-center gap-4">
-          <span>Welcome, {user?.email}</span>
+          <span>Welcome, {user?.firstName}</span>
           <Button onClick={handleLogout}>Logout</Button>
         </div>
       </header>
@@ -35,22 +35,6 @@ export default function DashboardLayout() {
         <Sidebar>
           <SidebarMenu sidebarLinks={sidebarLinks} />
         </Sidebar>
-        {/* <nav className="w-full md:w-64 bg-white p-4 md:p-8 border-b md:border-b-0 md:border-r border-gray-200 md:min-h-[calc(100vh-80px)]">
-          <ul className="list-none p-0 m-0 space-y-2">
-            <li>
-              <SidebarLink href="/dashboard">🏠 Home</SidebarLink>
-            </li>
-            <li>
-              <SidebarLink href="/dashboard/products">📦 Products</SidebarLink>
-            </li>
-            <li>
-              <SidebarLink href="/dashboard/products-variants">🎨 Product Variants</SidebarLink>
-            </li>
-            <li>
-              <SidebarLink href="/dashboard/settings">⚙️ Settings</SidebarLink>
-            </li>
-          </ul>
-        </nav> */}
 
         {/* Main Content */}
         <main className="flex-1 p-4 md:p-8">

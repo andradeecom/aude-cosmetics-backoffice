@@ -6,10 +6,10 @@ import ProtectedRoute from "@/components/ProtectedRoute.tsx";
 import AuthLayout from "@/pages/auth/AuthLayout.tsx";
 import SignInPage from "@/pages/auth/sign-in/SignInPage.tsx";
 import DashboardLayout from "@/pages/dashboard/DashboardLayout.tsx";
-import Home from "@/pages/dashboard/Home.tsx";
-import Products from "@/pages/dashboard/Products.tsx";
-import ProductsVariants from "@/pages/dashboard/ProductsVariants.tsx";
-import Settings from "@/pages/dashboard/Settings.tsx";
+import Home from "@/pages/dashboard/HomePage";
+import Products from "@/pages/dashboard/products/ProductsPage";
+import ProductsVariants from "@/pages/dashboard/products-variants/ProductsVariantsPage";
+import Settings from "@/pages/dashboard/SettingsPage";
 import "./index.css";
 
 createRoot(document.getElementById("root")!).render(
