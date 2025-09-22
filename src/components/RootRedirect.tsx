@@ -1,12 +1,13 @@
 import { Navigate } from 'react-router';
 import { useAuth } from '../hooks/useAuth';
-import type { ReactNode } from 'react';
 
-interface ProtectedRouteProps {
-  children: ReactNode;
-}
-
-export default function ProtectedRoute({ children }: ProtectedRouteProps) {
+/**
+ * Smart root redirect component that redirects based on authentication status
+ * - If authenticated: redirect to dashboard
+ * - If not authenticated: redirect to sign-in
+ * - If loading: show loading state
+ */
+export default function RootRedirect() {
   const { isAuthenticated, isLoading } = useAuth();
 
   // Show loading while checking authentication
@@ -18,10 +19,10 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
     );
   }
 
-  // Redirect to sign-in if not authenticated
-  if (!isAuthenticated) {
+  // Redirect based on authentication status
+  if (isAuthenticated) {
+    return <Navigate to="/dashboard" replace />;
+  } else {
     return <Navigate to="/sign-in" replace />;
   }
-
-  return <>{children}</>;
 }

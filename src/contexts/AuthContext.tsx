@@ -5,7 +5,6 @@ import { AuthService } from "../services/auth.service";
 import { getCookie } from "../services/cookie";
 import type { User } from "../types/sign-in-response";
 import { eventBus, AUTH_EVENTS } from "../services/events";
-import api from "../services/api";
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
@@ -25,47 +24,31 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // Subscribe to session expired events
     const unsubscribe = eventBus.on(AUTH_EVENTS.SESSION_EXPIRED, handleSessionExpired);
 
-    const checkAuth = async () => {
+    const checkAuth = () => {
       try {
         const hasToken = !!getCookie("accessToken");
+        const storedUser = localStorage.getItem("user");
 
-        if (hasToken) {
-          // Check if token is about to expire and refresh it if needed
-          await AuthService.checkTokenExpiration();
-
-          // Get user data from localStorage (temporary until we have a proper /me endpoint)
-          const storedUser = localStorage.getItem("user");
-          if (storedUser) {
-            setUser(JSON.parse(storedUser));
-            setIsAuthenticated(true);
-          } else {
-            // If we have a token but no user data, try to fetch user data from API
-            try {
-              // This assumes you have or will implement a /me endpoint
-              const response = await api.get("/api/auth/me");
-              if (response.data && response.data.data) {
-                const userData = response.data.data;
-                setUser(userData);
-                localStorage.setItem("user", JSON.stringify(userData));
-                setIsAuthenticated(true);
-              } else {
-                // If the API call fails or returns no data, clear tokens
-                AuthService.signOut();
-                setIsAuthenticated(false);
-              }
-            } catch (apiError) {
-              console.error("Error fetching user data:", apiError);
-              // If the API call fails, clear tokens
-              AuthService.signOut();
-              setIsAuthenticated(false);
-            }
-          }
+        if (hasToken && storedUser) {
+          // We have both token and user data - user is authenticated
+          setUser(JSON.parse(storedUser));
+          setIsAuthenticated(true);
+        } else if (hasToken && !storedUser) {
+          // We have token but no user data - this shouldn't happen in normal flow
+          // Let's trust the token and set a minimal user state
+          // The API interceptor will handle token validation on actual requests
+          console.warn("Token found but no user data in localStorage");
+          setIsAuthenticated(true);
+          setUser({ id: "", email: "", firstName: "User", lastName: "", role: "EMPLOYEE" } as User);
         } else {
+          // No token - user is not authenticated
           setIsAuthenticated(false);
+          setUser(null);
         }
       } catch (err) {
         console.error("Error checking authentication:", err);
         setIsAuthenticated(false);
+        setUser(null);
       } finally {
         setIsLoading(false);
       }
@@ -73,19 +56,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     checkAuth();
 
-    // Set up periodic token check (every 5 minutes)
-    const tokenCheckInterval = setInterval(() => {
-      if (isAuthenticated) {
-        AuthService.checkTokenExpiration();
-      }
-    }, 5 * 60 * 1000);
-
-    // Clean up event listener and interval on unmount
+    // Clean up event listener on unmount
     return () => {
       unsubscribe();
-      clearInterval(tokenCheckInterval);
     };
-  }, [handleSessionExpired, isAuthenticated]);
+  }, [handleSessionExpired]);
 
   const signin = async (email: string, password: string) => {
     setIsLoading(true);

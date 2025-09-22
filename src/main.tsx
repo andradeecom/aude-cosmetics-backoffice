@@ -1,8 +1,10 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router";
+import { BrowserRouter, Routes, Route } from "react-router";
 import { AuthProvider } from "@/contexts/AuthContext.tsx";
 import ProtectedRoute from "@/components/ProtectedRoute.tsx";
+import PublicRoute from "@/components/PublicRoute.tsx";
+import RootRedirect from "@/components/RootRedirect.tsx";
 import AuthLayout from "@/pages/auth/AuthLayout.tsx";
 import SignInPage from "@/pages/auth/sign-in/SignInPage.tsx";
 import DashboardLayout from "@/pages/dashboard/DashboardLayout.tsx";
@@ -17,12 +19,12 @@ createRoot(document.getElementById("root")!).render(
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-          {/* Redirect root to login */}
-          <Route path="/" element={<Navigate to="/sign-in" replace />} />
+          {/* Smart root redirect based on authentication status */}
+          <Route path="/" element={<RootRedirect />} />
 
-          {/* Public routes */}
+          {/* Public routes - redirect to dashboard if already authenticated */}
           <Route element={<AuthLayout />}>
-            <Route path="sign-in" element={<SignInPage />} />
+            <Route path="sign-in" element={<PublicRoute><SignInPage /></PublicRoute>} />
           </Route>
 
           {/* Protected routes */}
