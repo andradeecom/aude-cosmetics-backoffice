@@ -1,6 +1,6 @@
-import { Navigate } from 'react-router';
-import { useAuth } from '../hooks/useAuth';
-import type { ReactNode } from 'react';
+import { Navigate } from "react-router";
+import { useAuth } from "../hooks/useAuth";
+import type { ReactNode } from "react";
 
 interface PublicRouteProps {
   children: ReactNode;
@@ -10,7 +10,7 @@ interface PublicRouteProps {
  * Public route component that redirects authenticated users to the dashboard
  * This prevents authenticated users from accessing public routes like sign-in
  */
-export default function PublicRoute({ children }: PublicRouteProps) {
+export function PublicRoute({ children }: PublicRouteProps) {
   const { isAuthenticated, isLoading } = useAuth();
 
   // Show loading while checking authentication

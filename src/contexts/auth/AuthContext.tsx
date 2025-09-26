@@ -1,14 +1,14 @@
 import { useState, useEffect, useCallback } from "react";
 import type { ReactNode } from "react";
-import { AuthContext } from "./AuthContextDefinition";
-import { AuthService } from "../services/auth.service";
-import { getCookie } from "../services/cookie";
-import type { User } from "../types/sign-in-response";
-import { eventBus, AUTH_EVENTS } from "../services/events";
+import { AuthContext } from "@/contexts";
+import { AuthService } from "@/services/auth.service";
+import { getCookie } from "@/services/cookie";
+import { ROLE_TYPES, type UserSignInResponse } from "@/types";
+import { eventBus, AUTH_EVENTS } from "@/services/events";
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<UserSignInResponse | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -39,7 +39,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           // The API interceptor will handle token validation on actual requests
           console.warn("Token found but no user data in localStorage");
           setIsAuthenticated(true);
-          setUser({ id: "", email: "", firstName: "User", lastName: "", role: "EMPLOYEE" } as User);
+          setUser({
+            id: "",
+            email: "",
+            firstName: "User",
+            lastName: "",
+            role: ROLE_TYPES.EMPLOYEE,
+          } as UserSignInResponse);
         } else {
           // No token - user is not authenticated
           setIsAuthenticated(false);

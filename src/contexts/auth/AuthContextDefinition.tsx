@@ -1,10 +1,10 @@
 import { createContext } from "react";
-import type { User } from "@/types/sign-in-response";
+import type { UserSignInResponse } from "@/types";
 export interface AuthContextType {
   isAuthenticated: boolean;
   signin: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
   signout: () => void;
-  user: User | null;
+  user: UserSignInResponse | null;
   isLoading: boolean;
   error: string | null;
 }

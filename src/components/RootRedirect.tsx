@@ -1,5 +1,5 @@
-import { Navigate } from 'react-router';
-import { useAuth } from '../hooks/useAuth';
+import { Navigate } from "react-router";
+import { useAuth } from "../hooks/useAuth";
 
 /**
  * Smart root redirect component that redirects based on authentication status
@@ -7,7 +7,7 @@ import { useAuth } from '../hooks/useAuth';
  * - If not authenticated: redirect to sign-in
  * - If loading: show loading state
  */
-export default function RootRedirect() {
+export function RootRedirect() {
   const { isAuthenticated, isLoading } = useAuth();
 
   // Show loading while checking authentication

@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router";
-import { useAuth } from "@/hooks/useAuth";
-import { SignInForm } from "@/components/SignInForm";
-import type { SignInFormSchema } from "@/pages/auth/sign-in/SignInFormSchema";
+import { useAuth } from "@/hooks";
+import { SignInForm } from "@/components";
+import type { SignInFormSchema } from "@/pages/auth/sign-in/sign-in-form-schema";
 
 export default function SignInPage() {
   const { signin } = useAuth();

@@ -1,8 +1,9 @@
 import { AxiosError } from "axios";
 import api from "@/services/api";
 import { setCookie, removeCookie } from "@/services/cookie";
-import type { ErrorResponse, SignInResponse, User } from "@/types/sign-in-response";
+import type { SignInResponse } from "@/pages/auth/sign-in/sign-in-response";
 import { eventBus, AUTH_EVENTS } from "@/services/events";
+import type { ErrorResponse, UserSignInResponse } from "@/types";
 
 interface SignInCredentials {
   email: string;
@@ -11,7 +12,7 @@ interface SignInCredentials {
 
 interface AuthResult {
   success: boolean;
-  user?: User;
+  user?: UserSignInResponse;
   error?: string;
 }
 
