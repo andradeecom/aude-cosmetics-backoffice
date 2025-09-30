@@ -8,5 +8,6 @@ export interface ProductVariant extends BaseModel {
   // stock: number;
   isActive: boolean;
 
-  product: Product;
+  productId: string;
+  product?: Product;
 }

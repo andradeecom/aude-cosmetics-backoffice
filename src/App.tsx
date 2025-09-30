@@ -6,9 +6,10 @@ import SignInPage from "@/pages/auth/sign-in/SignInPage.tsx";
 import DashboardLayout from "@/pages/dashboard/DashboardLayout.tsx";
 import Home from "@/pages/dashboard/HomePage";
 import ProductsPage from "@/pages/dashboard/products/ProductsPage";
-import ProductDetailsPage from "@/pages/dashboard/products/ProductDetailsPage";
-import ProductsVariants from "@/pages/dashboard/products-variants/ProductsVariantsPage";
-import Settings from "@/pages/dashboard/SettingsPage";
+import ProductDetailsPage from "@/pages/dashboard/products/details/ProductDetailsPage";
+import ProductsVariantsPage from "@/pages/dashboard/products-variants/ProductsVariantsPage";
+import SettingsPage from "@/pages/dashboard/SettingsPage";
+import ProductCreatePage from "@/pages/dashboard/products/create/ProductCreatePage";
 
 export default function App() {
   return (
@@ -43,9 +44,10 @@ export default function App() {
             <Route path="products">
               <Route index element={<ProductsPage />} />
               <Route path=":id" element={<ProductDetailsPage />} />
+              <Route path="create" element={<ProductCreatePage />} />
             </Route>
-            <Route path="products-variants" element={<ProductsVariants />} />
-            <Route path="settings" element={<Settings />} />
+            <Route path="products-variants" element={<ProductsVariantsPage />} />
+            <Route path="settings" element={<SettingsPage />} />
           </Route>
         </Routes>
       </BrowserRouter>

@@ -5,12 +5,16 @@ import {
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarHeader,
+  SidebarFooter,
+  SidebarRail,
 } from "@/components/ui/sidebar";
+import { NavUser } from "@/components";
+import { useAuth } from "@/hooks";
+import { useNavigate } from "react-router";
 
 // Menu items.
 const items = [
@@ -42,12 +46,57 @@ const items = [
 ];
 
 export function AppSidebar() {
+  const { signout, user } = useAuth();
+  const navigate = useNavigate();
+
+  const onSignout = () => {
+    signout();
+    navigate("/sign-in");
+  };
+
   return (
-    <Sidebar>
-      <SidebarHeader>Aude Cosmetics</SidebarHeader>
+    <Sidebar collapsible="icon">
+      <SidebarHeader>
+        <div className="size-6 ml-1">
+          <svg
+            width="100%"
+            height="100%"
+            viewBox="0 0 1080 1080"
+            version="1.1"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlnsXlink="http://www.w3.org/1999/xlink"
+            xmlSpace="preserve"
+            style={{
+              fillRule: "evenodd",
+              clipRule: "evenodd",
+              strokeLinecap: "round",
+              strokeLinejoin: "round",
+              strokeMiterlimit: 1.5,
+            }}
+          >
+            <g id="A">
+              <path
+                d="M450.811,356.837l-198.934,554.212c-0,0 -14.159,35.866 0.892,62.532c8.726,-23.931 210.395,-584.651 210.395,-584.651l-12.353,-32.093Z"
+                style={{ stroke: "#000", strokeWidth: "1px" }}
+              />
+              <path
+                d="M276.379,716.76l23.624,0.251l-63.032,175.147c0,-0 -32.407,73.449 14.538,117.047c16.67,15.476 44.552,43.504 145.671,44.458c-0.04,5.291 0.117,9.419 0.117,9.419l-397.296,0.053l-0,-9.65l22.938,0.251c-0,0 85.637,0.545 134.012,-71.396c24.394,-29.777 58.711,-102.954 70.288,-133.141c8.27,-18.609 49.14,-132.439 49.14,-132.439Z"
+                style={{ stroke: "#000", strokeWidth: "1px" }}
+              />
+              <path
+                d="M284.708,694.358l23.484,0l132.728,-368.588l-12.465,-32.345l-143.747,400.933Z"
+                style={{ stroke: "#000", strokeWidth: "1px" }}
+              />
+              <path
+                d="M367.224,716.76l7.534,-22.402l222.331,0.849l-156.169,-437.794l83.252,-233.11c-0,-0 12.058,-16.985 25.4,0.367c6.203,16.439 293.871,805.994 318.001,844.866c20.767,38.737 91.084,186.757 212.427,184.682c-0.01,3.877 -0.031,6.559 -0.031,8.917c-5.616,-0.095 -519.112,-0 -519.112,-0l0.136,-9.284l84.199,-2.441c0,0 37.72,-0.503 56.235,-19.363c7.313,-10.362 11.557,-15.465 1.362,-41.461c-2.096,-5.94 -97.695,-273.826 -97.695,-273.826l-237.87,-0Z"
+                style={{ stroke: "#000", strokeWidth: "1px" }}
+              />
+            </g>
+          </svg>
+        </div>
+      </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Application</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
@@ -64,6 +113,10 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarFooter>
+        <NavUser user={user!} onSignout={onSignout} />
+      </SidebarFooter>
+      <SidebarRail />
     </Sidebar>
   );
 }

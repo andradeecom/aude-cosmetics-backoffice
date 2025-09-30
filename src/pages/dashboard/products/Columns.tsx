@@ -1,6 +1,6 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import type { Product } from "@/types";
-import { ProductMenu } from "@/pages/dashboard/products/ProductMenu";
+import { ProductTableMenu } from "@/pages/dashboard/products/ProductTableMenu";
 
 export const columns: ColumnDef<Product>[] = [
   {
@@ -43,7 +43,7 @@ export const columns: ColumnDef<Product>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => <ProductMenu row={row} />,
+    cell: ({ row }) => <ProductTableMenu row={row} />,
   },
   // {
   //   accessorKey: "amount",

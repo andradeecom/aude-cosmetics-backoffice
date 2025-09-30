@@ -5,6 +5,7 @@ export interface User extends BaseModel {
   hashedPassword: string;
   firstName: string;
   lastName: string;
+  avatar: string;
   role: Role;
 }
 

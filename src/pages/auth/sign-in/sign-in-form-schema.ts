@@ -1,4 +1,4 @@
-import { PASSWORD_PATTERN } from "@/utils/validation-patterns";
+import { PASSWORD_PATTERN } from "@/lib/constants";
 import z from "zod";
 
 export const formSchema = z.object({

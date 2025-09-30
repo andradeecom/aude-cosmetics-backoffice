@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import type { Product } from "@/types";
 
-export const ProductMenu = ({ row }: { row: Row<Product> }) => {
+export const ProductTableMenu = ({ row }: { row: Row<Product> }) => {
   const navigate = useNavigate();
   const product = row.original;
 

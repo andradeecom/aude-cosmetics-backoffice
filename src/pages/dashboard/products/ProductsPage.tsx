@@ -2,215 +2,27 @@ import { useState } from "react";
 import { DataTable } from "@/pages/dashboard/products/DataTable";
 import { columns } from "./Columns";
 import type { Product } from "@/types";
-
-const mockProducts: Product[] = [
-  {
-    id: "PROD-001",
-    name: "Hydrating Shampoo",
-    description: "Deeply hydrating shampoo for dry and damaged hair",
-    tags: ["hydrating", "shampoo", "repair"],
-    category: "shampoo",
-    collection: "hydration",
-    seoTitle: "Hydrating Shampoo for Dry Hair | Aude Cosmetics",
-    seoDescription:
-      "Restore moisture to dry and damaged hair with our hydrating shampoo. Formulated with natural ingredients for optimal hair health.",
-    createdAt: new Date("2023-01-15"),
-    updatedAt: new Date("2023-01-15"),
-    version: 1,
-  },
-  {
-    id: "PROD-002",
-    name: "Repairing Hair Mask",
-    description: "Intensive repair mask for damaged and brittle hair",
-    tags: ["repair", "mask", "keratin", "strengthening"],
-    category: "mask",
-    collection: "regeneration",
-    seoTitle: "Repairing Hair Mask | Aude Cosmetics",
-    seoDescription: "Intensive repair treatment that restores strength and elasticity to damaged hair.",
-    createdAt: new Date("2023-02-20"),
-    updatedAt: new Date("2023-02-20"),
-    version: 1,
-  },
-  {
-    id: "PROD-003",
-    name: "Nourishing Hair Oil",
-    description: "Lightweight oil that nourishes and adds shine without weighing hair down",
-    tags: ["oil", "nourishing", "shine", "lightweight"],
-    category: "oil",
-    collection: "nutrition",
-    seoTitle: "Nourishing Hair Oil | Aude Cosmetics",
-    seoDescription: "Lightweight hair oil that provides deep nourishment and brilliant shine.",
-    createdAt: new Date("2023-03-10"),
-    updatedAt: new Date("2023-03-10"),
-    version: 1,
-  },
-  {
-    id: "PROD-004",
-    name: "Leave-in Conditioner",
-    description: "Daily leave-in conditioner for soft, manageable hair",
-    tags: ["leave-in", "conditioner", "detangle", "moisturizing"],
-    category: "leave-in",
-    collection: "hydration",
-    seoTitle: "Leave-in Conditioner | Aude Cosmetics",
-    seoDescription: "Daily leave-in conditioner that detangles and moisturizes for soft, manageable hair.",
-    createdAt: new Date("2023-04-05"),
-    updatedAt: new Date("2023-04-05"),
-    version: 1,
-  },
-  {
-    id: "PROD-005",
-    name: "Keratin Straightening Cream",
-    description: "Professional straightening cream with keratin for frizz control",
-    tags: ["straightening", "keratin", "frizz control", "smoothing"],
-    category: "straightener",
-    collection: "regeneration",
-    seoTitle: "Keratin Straightening Cream | Aude Cosmetics",
-    seoDescription: "Professional straightening cream with keratin for smooth, frizz-free hair.",
-    createdAt: new Date("2023-05-12"),
-    updatedAt: new Date("2023-05-12"),
-    version: 1,
-  },
-  {
-    id: "PROD-006",
-    name: "Volumizing Shampoo",
-    description: "Adds body and volume to fine, limp hair",
-    tags: ["volumizing", "shampoo", "fine hair", "body"],
-    category: "shampoo",
-    collection: "hydration",
-    seoTitle: "Volumizing Shampoo for Fine Hair | Aude Cosmetics",
-    seoDescription: "Give your fine hair incredible body and volume with our lightweight volumizing shampoo.",
-    createdAt: new Date("2023-06-18"),
-    updatedAt: new Date("2023-06-18"),
-    version: 1,
-  },
-  {
-    id: "PROD-007",
-    name: "Curl Defining Cream",
-    description: "Enhances natural curls while providing moisture and definition",
-    tags: ["curls", "leave-in", "definition", "anti-frizz"],
-    category: "leave-in",
-    collection: "hydration",
-    seoTitle: "Curl Defining Cream | Aude Cosmetics",
-    seoDescription: "Define and enhance your natural curls with our moisturizing curl cream that fights frizz.",
-    createdAt: new Date("2023-07-22"),
-    updatedAt: new Date("2023-07-22"),
-    version: 1,
-  },
-  {
-    id: "PROD-008",
-    name: "Scalp Treatment Oil",
-    description: "Soothing treatment for dry, itchy scalp conditions",
-    tags: ["scalp", "oil", "treatment", "soothing"],
-    category: "oil",
-    collection: "nutrition",
-    seoTitle: "Scalp Treatment Oil | Aude Cosmetics",
-    seoDescription: "Soothe dry, itchy scalp with our nourishing treatment oil that balances and hydrates.",
-    createdAt: new Date("2023-08-05"),
-    updatedAt: new Date("2023-08-05"),
-    version: 1,
-  },
-  {
-    id: "PROD-009",
-    name: "Protein Recovery Mask",
-    description: "Intensive protein treatment for severely damaged hair",
-    tags: ["protein", "mask", "repair", "damaged hair"],
-    category: "mask",
-    collection: "regeneration",
-    seoTitle: "Protein Recovery Mask | Aude Cosmetics",
-    seoDescription: "Restore strength and elasticity to severely damaged hair with our intensive protein treatment.",
-    createdAt: new Date("2023-09-14"),
-    updatedAt: new Date("2023-09-14"),
-    version: 1,
-  },
-  {
-    id: "PROD-010",
-    name: "Heat Protection Spray",
-    description: "Shields hair from heat damage up to 450°F/232°C",
-    tags: ["heat protection", "leave-in", "styling", "damage prevention"],
-    category: "leave-in",
-    collection: "regeneration",
-    seoTitle: "Heat Protection Spray | Aude Cosmetics",
-    seoDescription: "Shield your hair from heat damage with our protective spray that works up to 450°F/232°C.",
-    createdAt: new Date("2023-10-02"),
-    updatedAt: new Date("2023-10-02"),
-    version: 1,
-  },
-  {
-    id: "PROD-011",
-    name: "Color Protection Conditioner",
-    description: "Preserves hair color vibrancy and prevents fading",
-    tags: ["color protection", "conditioner", "anti-fade", "UV protection"],
-    category: "shampoo",
-    collection: "hydration",
-    seoTitle: "Color Protection Conditioner | Aude Cosmetics",
-    seoDescription:
-      "Keep your colored hair vibrant and prevent fading with our specialized color protection conditioner.",
-    createdAt: new Date("2023-11-08"),
-    updatedAt: new Date("2023-11-08"),
-    version: 1,
-  },
-  {
-    id: "PROD-012",
-    name: "Clarifying Shampoo",
-    description: "Deep cleansing shampoo that removes product buildup and impurities",
-    tags: ["clarifying", "shampoo", "deep cleanse", "detox"],
-    category: "shampoo",
-    collection: "hydration",
-    seoTitle: "Clarifying Shampoo | Aude Cosmetics",
-    seoDescription:
-      "Remove product buildup and impurities with our deep cleansing clarifying shampoo for fresh, clean hair.",
-    createdAt: new Date("2023-12-15"),
-    updatedAt: new Date("2023-12-15"),
-    version: 1,
-  },
-  {
-    id: "PROD-013",
-    name: "Anti-Dandruff Treatment",
-    description: "Specialized treatment that eliminates dandruff and soothes irritated scalp",
-    tags: ["anti-dandruff", "treatment", "scalp care", "soothing"],
-    category: "shampoo",
-    collection: "nutrition",
-    seoTitle: "Anti-Dandruff Treatment | Aude Cosmetics",
-    seoDescription: "Eliminate dandruff and soothe irritated scalp with our specialized anti-dandruff treatment.",
-    createdAt: new Date("2024-01-20"),
-    updatedAt: new Date("2024-01-20"),
-    version: 1,
-  },
-  {
-    id: "PROD-014",
-    name: "Argan Infusion Serum",
-    description: "Luxurious serum with pure argan oil for ultimate hair softness and shine",
-    tags: ["argan oil", "serum", "luxury", "shine", "softness"],
-    category: "oil",
-    collection: "nutrition",
-    seoTitle: "Argan Infusion Serum | Aude Cosmetics",
-    seoDescription: "Transform your hair with our luxurious argan oil serum for ultimate softness and brilliant shine.",
-    createdAt: new Date("2024-02-28"),
-    updatedAt: new Date("2024-02-28"),
-    version: 1,
-  },
-  {
-    id: "PROD-015",
-    name: "Overnight Repair Treatment",
-    description: "Intensive overnight treatment that repairs and rejuvenates hair while you sleep",
-    tags: ["overnight", "repair", "treatment", "rejuvenating"],
-    category: "mask",
-    collection: "regeneration",
-    seoTitle: "Overnight Repair Treatment | Aude Cosmetics",
-    seoDescription: "Repair and rejuvenate your hair while you sleep with our intensive overnight treatment formula.",
-    createdAt: new Date("2024-03-15"),
-    updatedAt: new Date("2024-03-15"),
-    version: 1,
-  },
-];
+import { mockedProducts } from "./mocked-data";
+import { SubHeader } from "@/components";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router";
 
 export default function ProductsPage() {
-  const [products] = useState<Product[]>(mockProducts);
+  const [products] = useState<Product[]>(mockedProducts);
+  const navigate = useNavigate();
 
   return (
-    <div className="container mx-auto py-10">
-      <h1 className="text-2xl font-bold mb-6">Products</h1>
+    <section className="space-y-6 py-10">
+      <SubHeader
+        title="Products"
+        description="Manage your products"
+        actions={
+          <Button className="w-full cursor-pointer" onClick={() => navigate("/dashboard/products/create")}>
+            Create new product
+          </Button>
+        }
+      />
       <DataTable columns={columns} data={products} />
-    </div>
+    </section>
   );
 }
