@@ -3,7 +3,7 @@ import { useAuth } from "@/hooks";
 import { SignInForm } from "@/components";
 import type { SignInFormSchema } from "@/routes/auth/sign-in/sign-in-form-schema";
 
-export default function SignInPage() {
+export const SignInPage = () => {
   const { signin } = useAuth();
   const navigate = useNavigate();
 
@@ -123,4 +123,4 @@ export default function SignInPage() {
       </div>
     </div>
   );
-}
+};

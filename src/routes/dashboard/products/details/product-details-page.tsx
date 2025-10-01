@@ -7,7 +7,7 @@ import { ProductService } from "@/services/product.service";
 import type { BaseResponse, Product } from "@/types";
 import { formatDate, formatPrice } from "@/lib/utils";
 
-export default function ProductDetailsPage() {
+export const ProductDetailsPage = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
@@ -36,16 +36,29 @@ export default function ProductDetailsPage() {
     );
   }
 
+  const handleDelete = () => {
+    try {
+      ProductService.delete(id!);
+      navigate("/dashboard/products");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleUpdate = () => {
+    navigate(`/dashboard/products/${id}/update`);
+  };
+
   return (
     <section className="space-y-6 py-10">
       <SubHeader
         title="Product Details"
         actions={
           <>
-            <Button variant="outline" className="cursor-pointer">
+            <Button variant="outline" className="cursor-pointer" onClick={handleUpdate}>
               Edit
             </Button>
-            <Button variant="destructive" className="cursor-pointer">
+            <Button variant="destructive" className="cursor-pointer" onClick={handleDelete}>
               Delete
             </Button>
           </>
@@ -133,4 +146,4 @@ export default function ProductDetailsPage() {
       </div>
     </section>
   );
-}
+};

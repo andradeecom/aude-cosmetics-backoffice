@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { useAuth } from "../../hooks/useAuth";
+import { useAuth } from "../../hooks/use-auth";
 
-export default function SettingsPage() {
+export const SettingsPage = () => {
   const { user } = useAuth();
   const [settings, setSettings] = useState({
     companyName: "Aude Cosmetics",
@@ -236,4 +236,4 @@ export default function SettingsPage() {
       </div>
     </div>
   );
-}
+};

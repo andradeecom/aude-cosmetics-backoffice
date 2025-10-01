@@ -1,5 +1,5 @@
 import { SubHeader } from "@/components";
-import { CreateProductForm } from "@/components/CreateProductForm";
+import { CreateProductForm } from "@/components/create-product-form";
 import { type CreatProductInFormSchema } from "./create-product-form-schema";
 import { useMutation } from "@tanstack/react-query";
 import { ProductService } from "@/services/product.service";
@@ -7,7 +7,7 @@ import { useNavigate } from "react-router";
 import { toast } from "sonner";
 import type { BaseResponse, Product } from "@/types";
 
-export default function ProductCreatePage() {
+export const ProductCreatePage = () => {
   const navigate = useNavigate();
   const mutation = useMutation<BaseResponse<Product>, Error, CreatProductInFormSchema>({
     mutationFn: (values: CreatProductInFormSchema) => {
@@ -32,4 +32,4 @@ export default function ProductCreatePage() {
       <CreateProductForm onSubmit={handleSubmit} />
     </section>
   );
-}
+};

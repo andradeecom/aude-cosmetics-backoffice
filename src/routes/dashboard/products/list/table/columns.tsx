@@ -1,6 +1,6 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import type { Product } from "@/types";
-import { ProductTableMenu } from "@/routes/dashboard/products/ProductTableMenu";
+import { ProductTableMenu } from "@/routes/dashboard/products/list/table/product-table-menu";
 
 export const columns: ColumnDef<Product>[] = [
   {

@@ -2,7 +2,7 @@ import { Outlet } from "react-router";
 import { AppSidebar, AppHeader } from "@/components";
 import { SidebarProvider } from "@/contexts";
 
-export default function DashboardLayout() {
+export const DashboardLayout = () => {
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -12,4 +12,4 @@ export default function DashboardLayout() {
       </main>
     </SidebarProvider>
   );
-}
+};

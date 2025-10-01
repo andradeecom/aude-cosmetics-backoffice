@@ -1,5 +1,4 @@
-import { DataTable } from "@/routes/dashboard/products/DataTable";
-import { columns } from "./Columns";
+import { DataTable, columns } from "@/routes/dashboard/products/list/table";
 import { SubHeader } from "@/components";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router";
@@ -7,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ProductService } from "@/services/product.service";
 import type { BaseResponse, Product } from "@/types";
 
-export default function ProductsPage() {
+export const ProductsListPage = () => {
   const navigate = useNavigate();
 
   const {
@@ -38,4 +37,4 @@ export default function ProductsPage() {
       <DataTable columns={columns} data={products ?? []} />
     </section>
   );
-}
+};

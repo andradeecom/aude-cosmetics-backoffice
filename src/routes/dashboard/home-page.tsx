@@ -1,4 +1,4 @@
-export default function HomePage() {
+export const HomePage = () => {
   return (
     <div>
       <h2 style={{ marginBottom: "2rem", color: "#333" }}>Dashboard Overview</h2>
@@ -92,4 +92,4 @@ export default function HomePage() {
       </div>
     </div>
   );
-}
+};
