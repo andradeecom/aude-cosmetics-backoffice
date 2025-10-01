@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -7,14 +6,17 @@ import { Input } from "@/components/ui/input";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CATEGORY_TYPES, COLLECTION_TYPES } from "@/types";
-import { formSchema } from "@/pages/dashboard/products/create/create-product-form-schema";
+import {
+  formSchema,
+  type CreatProductInFormSchema,
+} from "@/routes/dashboard/products/create/create-product-form-schema";
 
 type CreateProductFormProps = {
-  onSubmit: (values: z.infer<typeof formSchema>) => void;
+  onSubmit: (values: CreatProductInFormSchema) => void;
 };
 
 export function CreateProductForm({ onSubmit }: CreateProductFormProps) {
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<CreatProductInFormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",

@@ -1,15 +1,29 @@
 import { useParams, useNavigate } from "react-router";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { mockedProducts } from "../mocked-data";
 import { SubHeader } from "@/components";
+import { useQuery } from "@tanstack/react-query";
+import { ProductService } from "@/services/product.service";
+import type { BaseResponse, Product } from "@/types";
+import { formatDate, formatPrice } from "@/lib/utils";
 
 export default function ProductDetailsPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
-  // In a real app, you would fetch the product by ID here
-  const product = mockedProducts.find((p) => p.id === id);
+  const {
+    data: product,
+    isPending,
+    error,
+  } = useQuery<BaseResponse<Product>, Error, Product>({
+    queryKey: ["product", id],
+    queryFn: () => ProductService.findById(id!),
+    select: (res) => res.data,
+  });
+
+  if (isPending) return <div>Loading...</div>;
+
+  if (error) return <div>Error: {error.message}</div>;
 
   if (!product) {
     return (
@@ -71,20 +85,20 @@ export default function ProductDetailsPage() {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {/* {product.variants.map((variant) => (
+                {product.variants?.map((variant) => (
                   <div key={variant.id} className="border rounded-lg p-4">
                     <div className="flex justify-between items-start">
                       <div>
                         <h4 className="font-medium">{variant.name}</h4>
-                        <p className="text-sm text-muted-foreground">SKU: {variant.sku}</p>
+                        <p className="text-sm text-muted-foreground">ID: {variant.id}</p>
                       </div>
                       <div className="text-right">
-                        <p className="font-medium">${variant.price.toFixed(2)}</p>
-                        <p className="text-sm text-muted-foreground">{variant.stock} in stock</p>
+                        <p className="font-medium">${formatPrice(variant.price)}</p>
+                        <p className="text-sm text-muted-foreground">{variant.isActive ? "Active" : "Inactive"}</p>
                       </div>
                     </div>
                   </div>
-                ))} */}
+                ))}
               </div>
             </CardContent>
           </Card>
@@ -107,11 +121,11 @@ export default function ProductDetailsPage() {
             <CardContent className="space-y-2">
               <div>
                 <p className="text-sm font-medium text-muted-foreground">Created</p>
-                <p>{product.createdAt?.toLocaleDateString() || "-"}</p>
+                <p>{formatDate(product.createdAt!)}</p>
               </div>
               <div>
                 <p className="text-sm font-medium text-muted-foreground">Last Updated</p>
-                <p>{product.updatedAt?.toLocaleDateString() || "-"}</p>
+                <p>{formatDate(product.updatedAt!)}</p>
               </div>
             </CardContent>
           </Card>

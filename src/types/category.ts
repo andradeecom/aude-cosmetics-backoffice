@@ -1,9 +1,9 @@
 export const CATEGORY_TYPES = {
-  SHAMPOO: "shampoo",
-  MASK: "mask",
-  OIL: "oil",
-  LEAVE_IN: "leave-in",
-  STRAIGHTENER: "straightener",
+  SHAMPOO: "Shampoo",
+  MASK: "Mask",
+  OIL: "Oil",
+  LEAVE_IN: "LeaveIn",
+  STRAIGHTENER: "Straightener",
 } as const;
 
 export type Category = (typeof CATEGORY_TYPES)[keyof typeof CATEGORY_TYPES];

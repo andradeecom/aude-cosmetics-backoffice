@@ -1,7 +1,7 @@
 import { AxiosError } from "axios";
 import api from "@/services/api";
 import { setCookie, removeCookie } from "@/services/cookie";
-import type { SignInResponse } from "@/pages/auth/sign-in/sign-in-response";
+import type { SignInResponse } from "@/routes/auth/sign-in/sign-in-response";
 import { eventBus, AUTH_EVENTS } from "@/services/events";
 import type { ErrorResponse, UserSignInResponse } from "@/types";
 

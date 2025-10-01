@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Card, CardDescription, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { formSchema } from "@/pages/auth/sign-in/sign-in-form-schema";
+import { formSchema } from "@/routes/auth/sign-in/sign-in-form-schema";
 
 type SignInFormProps = {
   onSubmit: (values: z.infer<typeof formSchema>) => void;

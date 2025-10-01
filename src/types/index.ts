@@ -1,4 +1,5 @@
 export * from "./common/base-model";
+export * from "./common/base-response";
 export * from "./common/error-response";
 export * from "./product";
 export * from "./category";
