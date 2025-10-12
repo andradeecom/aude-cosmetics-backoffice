@@ -30,7 +30,7 @@ const items = [
   },
   {
     title: "Product Variants",
-    url: "/dashboard/products-variants",
+    url: "/dashboard/product-variants",
     icon: Package,
   },
   // {

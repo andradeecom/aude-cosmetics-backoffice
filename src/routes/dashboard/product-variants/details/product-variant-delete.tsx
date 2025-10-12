@@ -10,18 +10,18 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { useMutation } from "@tanstack/react-query";
-import { ProductService } from "@/services/product.service";
+import { ProductVariantService } from "@/services/product-variant.service";
 import { toast } from "sonner";
 import { useNavigate } from "react-router";
 import { Button } from "@/components/ui/button";
 
-export const ProductDeleteDialog = ({ id }: { id: string }) => {
+export const VariantDeleteDialog = ({ id }: { id: string }) => {
   const navigate = useNavigate();
   const mutate = useMutation({
-    mutationFn: () => ProductService.delete(id),
+    mutationFn: () => ProductVariantService.delete(id),
     onSuccess: () => {
-      toast.success("Product deleted successfully!");
-      navigate("/dashboard/products");
+      toast.success("Product variant deleted successfully!");
+      navigate("/dashboard/product-variants");
     },
     onError: (error) => {
       toast.error(error.message);
@@ -39,7 +39,7 @@ export const ProductDeleteDialog = ({ id }: { id: string }) => {
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your product and remove your data from our
+            This action cannot be undone. This will permanently delete your variant and remove your data from our
             servers.
           </AlertDialogDescription>
         </AlertDialogHeader>

@@ -10,9 +10,12 @@ import {
   ProductsListPage,
   ProductDetailsPage,
   ProductCreatePage,
-  ProductsVariantsListPage,
+  ProductVariantsListPage,
   SettingsPage,
   ProductUpdatePage,
+  ProductVariantDetailsPage,
+  ProductVariantCreatePage,
+  ProductVariantUpdatePage,
 } from "@/routes";
 
 const queryClient = new QueryClient();
@@ -54,7 +57,12 @@ export default function App() {
                 <Route path="create" element={<ProductCreatePage />} />
                 <Route path=":id/update" element={<ProductUpdatePage />} />
               </Route>
-              <Route path="products-variants" element={<ProductsVariantsListPage />} />
+              <Route path="product-variants">
+                <Route index element={<ProductVariantsListPage />} />
+                <Route path=":id" element={<ProductVariantDetailsPage />} />
+                <Route path="create" element={<ProductVariantCreatePage />} />
+                <Route path=":id/update" element={<ProductVariantUpdatePage />} />
+              </Route>
               <Route path="settings" element={<SettingsPage />} />
             </Route>
           </Routes>

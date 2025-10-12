@@ -8,11 +8,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import type { Product } from "@/types";
+import type { ProductVariant } from "@/types";
 
-export const ProductTableMenu = ({ row }: { row: Row<Product> }) => {
+export const ProductVariantTableMenu = ({ row }: { row: Row<ProductVariant> }) => {
   const navigate = useNavigate();
-  const product = row.original;
+  const variant = row.original;
 
   return (
     <DropdownMenu>
@@ -26,20 +26,20 @@ export const ProductTableMenu = ({ row }: { row: Row<Product> }) => {
         <DropdownMenuItem
           onClick={(e) => {
             e.stopPropagation();
-            navigator.clipboard.writeText(product.id);
+            navigator.clipboard.writeText(variant.id);
           }}
           className="cursor-pointer"
         >
-          Copy product ID
+          Copy variant ID
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={(e) => {
             e.stopPropagation();
-            navigate(`/dashboard/products/${product.id}`);
+            navigate(`/dashboard/product-variants/${variant.id}`);
           }}
           className="cursor-pointer"
         >
-          View product details
+          View variant details
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

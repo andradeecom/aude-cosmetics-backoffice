@@ -37,17 +37,17 @@ export const ProductDetailsPage = () => {
     );
   }
 
-  const handleUpdate = () => {
-    navigate(`/dashboard/products/${id}/update`);
-  };
-
   return (
     <section className="space-y-6 py-10">
       <SubHeader
         title="Product Details"
         actions={
           <>
-            <Button variant="outline" className="cursor-pointer" onClick={handleUpdate}>
+            <Button
+              variant="outline"
+              className="cursor-pointer"
+              onClick={() => navigate(`/dashboard/products/${id}/update`)}
+            >
               Edit
             </Button>
             <ProductDeleteDialog id={id!} />

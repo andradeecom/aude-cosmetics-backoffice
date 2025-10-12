@@ -7,4 +7,7 @@ export * from "./dashboard/products/create/product-create-page";
 export * from "./dashboard/products/details/product-details-page";
 export * from "./dashboard/products/list/products-list-page";
 export * from "./dashboard/products/update/product-update-page";
-export * from "./dashboard/products-variants/list/products-variants-list-page";
+export * from "./dashboard/product-variants/list/product-variants-list-page";
+export * from "./dashboard/product-variants/update/product-variant-update-page";
+export * from "./dashboard/product-variants/create/product-variant-create-page";
+export * from "./dashboard/product-variants/details/product-variant-details-page";

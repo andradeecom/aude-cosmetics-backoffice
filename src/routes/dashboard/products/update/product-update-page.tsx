@@ -6,7 +6,6 @@ import { toast } from "sonner";
 import type { UpdateProductInFormSchema } from "./update-product-form-schema";
 import type { BaseResponse, Product } from "@/types";
 import { useParams } from "react-router";
-import { Button } from "@/components/ui/button";
 
 export const ProductUpdatePage = () => {
   const { id } = useParams<{ id: string }>();
@@ -17,9 +16,8 @@ export const ProductUpdatePage = () => {
       return ProductService.update(id!, values);
     },
     onSuccess: () => {
-      toast.success("Product updated successfully!", {
-        action: <Button onClick={() => navigate("/dashboard/products")}>Go to products</Button>,
-      });
+      toast.success("Product updated successfully!");
+      navigate("/dashboard/products");
     },
     onError: (error) => {
       toast.error(error.message);

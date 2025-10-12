@@ -10,3 +10,4 @@ export * from "./header/sub-header";
 export * from "./create-product-form";
 export * from "./update-product-form";
 export * from "./logos/logo-a";
+export * from "./update-variant-form";
