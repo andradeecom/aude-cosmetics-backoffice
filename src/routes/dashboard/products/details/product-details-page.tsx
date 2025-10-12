@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ProductService } from "@/services/product.service";
 import type { BaseResponse, Product } from "@/types";
 import { formatDate, formatPrice } from "@/lib/utils";
+import { ProductDeleteDialog } from "./product-delete";
 
 export const ProductDetailsPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -36,15 +37,6 @@ export const ProductDetailsPage = () => {
     );
   }
 
-  const handleDelete = () => {
-    try {
-      ProductService.delete(id!);
-      navigate("/dashboard/products");
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   const handleUpdate = () => {
     navigate(`/dashboard/products/${id}/update`);
   };
@@ -58,9 +50,7 @@ export const ProductDetailsPage = () => {
             <Button variant="outline" className="cursor-pointer" onClick={handleUpdate}>
               Edit
             </Button>
-            <Button variant="destructive" className="cursor-pointer" onClick={handleDelete}>
-              Delete
-            </Button>
+            <ProductDeleteDialog id={id!} />
           </>
         }
       />

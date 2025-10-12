@@ -14,21 +14,35 @@ export const ProductTableMenu = ({ row }: { row: Row<Product> }) => {
   const navigate = useNavigate();
   const product = row.original;
 
-  const navigateToProductDetails = () => {
-    navigate(`/dashboard/products/${product.id}`);
-  };
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="h-8 w-8 p-0 cursor-pointer">
+        <Button
+          variant="ghost"
+          className="h-8 w-8 p-0 cursor-pointer"
+          onClick={(e) => e.stopPropagation()}
+        >
           <span className="sr-only">Open menu</span>
           <MoreHorizontal className="h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => navigator.clipboard.writeText(product.id)}>Copy prodcut ID</DropdownMenuItem>
-        <DropdownMenuItem onClick={navigateToProductDetails} className="cursor-pointer">
+        <DropdownMenuItem
+          onClick={(e) => {
+            e.stopPropagation();
+            navigator.clipboard.writeText(product.id);
+          }}
+          className="cursor-pointer"
+        >
+          Copy product ID
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={(e) => {
+            e.stopPropagation();
+            navigate(`/dashboard/products/${product.id}`);
+          }}
+          className="cursor-pointer"
+        >
           View product details
         </DropdownMenuItem>
       </DropdownMenuContent>

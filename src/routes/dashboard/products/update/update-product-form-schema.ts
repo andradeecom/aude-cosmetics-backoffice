@@ -2,9 +2,9 @@ import { CATEGORY_TYPES, COLLECTION_TYPES, type Category, type Collection } from
 import z from "zod";
 
 export const formSchema = z.object({
-  name: z.string(),
+  name: z.string().optional(),
   description: z.string().optional(),
-  tags: z.array(z.string()),
+  tags: z.array(z.string()).optional(),
   category: z.string().refine((value) => Object.values(CATEGORY_TYPES).includes(value as Category), {
     message: "Invalid category",
   }),
@@ -15,4 +15,4 @@ export const formSchema = z.object({
   seoDescription: z.string().optional(),
 });
 
-export type CreateProductInFormSchema = z.infer<typeof formSchema>;
+export type UpdateProductInFormSchema = z.infer<typeof formSchema>;

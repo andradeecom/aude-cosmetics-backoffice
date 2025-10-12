@@ -1,6 +1,6 @@
 import { SubHeader } from "@/components";
 import { CreateProductForm } from "@/components/create-product-form";
-import { type CreatProductInFormSchema } from "./create-product-form-schema";
+import { type CreateProductInFormSchema } from "./create-product-form-schema";
 import { useMutation } from "@tanstack/react-query";
 import { ProductService } from "@/services/product.service";
 import { useNavigate } from "react-router";
@@ -9,8 +9,8 @@ import type { BaseResponse, Product } from "@/types";
 
 export const ProductCreatePage = () => {
   const navigate = useNavigate();
-  const mutation = useMutation<BaseResponse<Product>, Error, CreatProductInFormSchema>({
-    mutationFn: (values: CreatProductInFormSchema) => {
+  const mutation = useMutation<BaseResponse<Product>, Error, CreateProductInFormSchema>({
+    mutationFn: (values: CreateProductInFormSchema) => {
       return ProductService.create(values);
     },
     onSuccess: () => {
@@ -22,13 +22,14 @@ export const ProductCreatePage = () => {
     },
   });
 
-  const handleSubmit = (values: CreatProductInFormSchema) => {
+  const handleSubmit = (values: CreateProductInFormSchema) => {
     mutation.mutate(values);
   };
 
   return (
     <section className="space-y-6 py-10">
       <SubHeader title="New Product" />
+      {mutation.isPending && <p>Loading...</p>}
       <CreateProductForm onSubmit={handleSubmit} />
     </section>
   );

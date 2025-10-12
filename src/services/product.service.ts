@@ -1,8 +1,9 @@
-import type { CreatProductInFormSchema } from "@/routes/dashboard/products/create/create-product-form-schema";
 import api from "./api";
+import type { CreateProductInFormSchema } from "@/routes/dashboard/products/create/create-product-form-schema";
+import type { UpdateProductInFormSchema } from "@/routes/dashboard/products/update/update-product-form-schema";
 
 export const ProductService = {
-  async create(product: CreatProductInFormSchema) {
+  async create(product: CreateProductInFormSchema) {
     const response = await api.post("/api/products", product);
     return response.data;
   },
@@ -17,7 +18,7 @@ export const ProductService = {
     return response.data;
   },
 
-  async update(id: string, product: CreatProductInFormSchema) {
+  async update(id: string, product: UpdateProductInFormSchema) {
     const response = await api.patch(`/api/products/${id}`, product);
     return response.data;
   },

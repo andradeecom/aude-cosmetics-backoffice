@@ -1,3 +1,4 @@
+import React from "react";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -5,18 +6,27 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { CATEGORY_TYPES, COLLECTION_TYPES } from "@/types";
+import { CATEGORY_TYPES, COLLECTION_TYPES, type BaseResponse, type Product } from "@/types";
 import {
   formSchema,
-  type CreateProductInFormSchema,
-} from "@/routes/dashboard/products/create/create-product-form-schema";
+  type UpdateProductInFormSchema,
+} from "@/routes/dashboard/products/update/update-product-form-schema";
+import { ProductService } from "@/services/product.service";
+import { useQuery } from "@tanstack/react-query";
 
-type CreateProductFormProps = {
-  onSubmit: (values: CreateProductInFormSchema) => void;
+type UpdateProductFormProps = {
+  onSubmit: (values: UpdateProductInFormSchema) => void;
+  id: string;
 };
 
-export function CreateProductForm({ onSubmit }: CreateProductFormProps) {
-  const form = useForm<CreateProductInFormSchema>({
+export function UpdateProductForm({ onSubmit, id }: UpdateProductFormProps) {
+  const { data: product, isPending } = useQuery<BaseResponse<Product>, Error, Product>({
+    queryKey: ["product", id],
+    queryFn: () => ProductService.findById(id),
+    select: (res) => res.data,
+  });
+
+  const form = useForm<UpdateProductInFormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
@@ -29,10 +39,29 @@ export function CreateProductForm({ onSubmit }: CreateProductFormProps) {
     },
   });
 
+  // Update form values when product data is loaded
+  React.useEffect(() => {
+    if (product) {
+      form.reset({
+        name: product.name,
+        description: product.description || "",
+        tags: product.tags || [],
+        category: product.category || "",
+        collection: product.collection || "",
+        seoTitle: product.seoTitle || "",
+        seoDescription: product.seoDescription || "",
+      });
+    }
+  }, [product, form]);
+
+  if (isPending) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <Card className="w-full">
       <CardHeader>
-        <CardTitle>Fill in the details to create a new product</CardTitle>
+        <CardTitle>Fill in the details to update the product</CardTitle>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -44,7 +73,7 @@ export function CreateProductForm({ onSubmit }: CreateProductFormProps) {
                 <FormItem>
                   <FormLabel>Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="Product name" {...field} />
+                    <Input placeholder={product?.name || "Product name"} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -57,7 +86,7 @@ export function CreateProductForm({ onSubmit }: CreateProductFormProps) {
                 <FormItem>
                   <FormLabel>Description</FormLabel>
                   <FormControl>
-                    <Input placeholder="Product description" {...field} />
+                    <Input placeholder={product?.description || "Product description2"} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -72,7 +101,7 @@ export function CreateProductForm({ onSubmit }: CreateProductFormProps) {
                   <FormControl>
                     <Input
                       placeholder="Enter tags separated by commas"
-                      value={field.value.join(", ")}
+                      value={field.value?.join(", ") || ""}
                       onChange={(e) => {
                         const value = e.target.value;
                         field.onChange(value ? value.split(",").map((tag) => tag.trim()) : []);
@@ -90,9 +119,9 @@ export function CreateProductForm({ onSubmit }: CreateProductFormProps) {
                 <FormItem>
                   <FormLabel>Category</FormLabel>
                   <FormControl>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <Select onValueChange={field.onChange} defaultValue={field.value || ""}>
                       <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select a category" />
+                        <SelectValue placeholder={product?.category || "Select a category"} />
                       </SelectTrigger>
                       <SelectContent>
                         {Object.entries(CATEGORY_TYPES).map(([key, value]) => (
@@ -117,9 +146,9 @@ export function CreateProductForm({ onSubmit }: CreateProductFormProps) {
                 <FormItem>
                   <FormLabel>Collection</FormLabel>
                   <FormControl>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <Select onValueChange={field.onChange} defaultValue={field.value || ""}>
                       <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select a collection" />
+                        <SelectValue placeholder={product?.collection || "Select a collection"} />
                       </SelectTrigger>
                       <SelectContent>
                         {Object.entries(COLLECTION_TYPES).map(([key, value]) => (
@@ -164,7 +193,7 @@ export function CreateProductForm({ onSubmit }: CreateProductFormProps) {
               )}
             />
             <Button type="submit" className="w-full cursor-pointer">
-              Create Product
+              Update Product
             </Button>
           </form>
         </Form>
