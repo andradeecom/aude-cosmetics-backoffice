@@ -11,3 +11,5 @@ export * from "./dashboard/product-variants/list/product-variants-list-page";
 export * from "./dashboard/product-variants/update/product-variant-update-page";
 export * from "./dashboard/product-variants/create/product-variant-create-page";
 export * from "./dashboard/product-variants/details/product-variant-details-page";
+export * from "./dashboard/product-variants/details/add-asset/add-asset-page";
+export * from "./not-found/not-found-page";

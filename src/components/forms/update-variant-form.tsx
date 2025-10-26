@@ -1,16 +1,16 @@
 import React from "react";
-import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import {
   type UpdateProductVariantFormSchema,
   formSchema,
 } from "@/routes/dashboard/product-variants/update/update-product-variant-form-schema";
-import { Checkbox } from "./ui/checkbox";
-import { Label } from "./ui/label";
 import { useQuery } from "@tanstack/react-query";
 import { ProductVariantService } from "@/services/product-variant.service";
 import type { BaseResponse, ProductVariant } from "@/types";

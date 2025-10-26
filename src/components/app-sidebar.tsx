@@ -1,4 +1,4 @@
-import { BoxesIcon, Home, Package } from "lucide-react";
+import { BoxesIcon, Package } from "lucide-react";
 
 import {
   Sidebar,
@@ -18,11 +18,11 @@ import { useNavigate } from "react-router";
 
 // Menu items.
 const items = [
-  {
-    title: "Home",
-    url: "/dashboard",
-    icon: Home,
-  },
+  // {
+  //   title: "Home",
+  //   url: "/dashboard",
+  //   icon: Home,
+  // },
   {
     title: "Products",
     url: "/dashboard/products",

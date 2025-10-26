@@ -21,7 +21,7 @@ export function RootRedirect() {
 
   // Redirect based on authentication status
   if (isAuthenticated) {
-    return <Navigate to="/dashboard" replace />;
+    return <Navigate to="/dashboard/products" replace />;
   } else {
     return <Navigate to="/sign-in" replace />;
   }

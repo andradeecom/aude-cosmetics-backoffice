@@ -24,7 +24,7 @@ export function PublicRoute({ children }: PublicRouteProps) {
 
   // If user is already authenticated, redirect to dashboard
   if (isAuthenticated) {
-    return <Navigate to="/dashboard" replace />;
+    return <Navigate to="/dashboard/products" replace />;
   }
 
   // Otherwise, render the public route content

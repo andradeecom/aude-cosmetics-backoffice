@@ -13,7 +13,7 @@ export const SignInPage = () => {
     try {
       const success = await signin(email, password);
       if (success) {
-        navigate("/dashboard");
+        navigate("/dashboard/products");
       } else {
         console.error("Invalid email or password");
       }

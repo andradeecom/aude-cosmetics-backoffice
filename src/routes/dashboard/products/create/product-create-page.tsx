@@ -1,5 +1,5 @@
 import { SubHeader } from "@/components";
-import { CreateProductForm } from "@/components/create-product-form";
+import { CreateProductForm } from "@/components/forms/create-product-form";
 import { type CreateProductInFormSchema } from "./create-product-form-schema";
 import { useMutation } from "@tanstack/react-query";
 import { ProductService } from "@/services/product.service";

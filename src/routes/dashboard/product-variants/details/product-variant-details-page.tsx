@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from "react-router";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardAction } from "@/components/ui/card";
 import { SubHeader } from "@/components";
 import { useQuery } from "@tanstack/react-query";
 import { ProductVariantService } from "@/services/product-variant.service";
@@ -73,7 +73,29 @@ export const ProductVariantDetailsPage = () => {
             <CardHeader>
               <CardTitle>Variant Images</CardTitle>
               <CardDescription>Available images of this variant (add images here too)</CardDescription>
+              <CardAction>
+                <Button
+                  variant="outline"
+                  className="cursor-pointer"
+                  onClick={() => navigate(`/dashboard/product-variants/${id}/add-asset`)}
+                >
+                  Add Image
+                </Button>
+              </CardAction>
             </CardHeader>
+            <CardContent>
+              {variant.images.length > 0 ? (
+                <div className="grid grid-cols-2 gap-4">
+                  {variant.images.map((image) => (
+                    <div key={image.id} className="size-60">
+                      <img src={image.url} alt={image.name} />
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p>No images available</p>
+              )}
+            </CardContent>
           </Card>
         </div>
 

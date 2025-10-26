@@ -1,5 +1,4 @@
-import { SubHeader } from "@/components";
-import { CreateVariantForm } from "@/components/create-variant-form";
+import { SubHeader, CreateVariantForm } from "@/components";
 import { type CreateProductVariantFormSchema } from "./create-product-variant-form-schema";
 import { useMutation } from "@tanstack/react-query";
 import { ProductVariantService } from "@/services/product-variant.service";

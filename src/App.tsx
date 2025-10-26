@@ -6,16 +6,18 @@ import {
   AuthLayout,
   SignInPage,
   DashboardLayout,
-  HomePage,
+  // HomePage,
   ProductsListPage,
   ProductDetailsPage,
   ProductCreatePage,
   ProductVariantsListPage,
-  SettingsPage,
+  // SettingsPage,
   ProductUpdatePage,
   ProductVariantDetailsPage,
   ProductVariantCreatePage,
   ProductVariantUpdatePage,
+  AddAssetPage,
+  NotFoundPage,
 } from "@/routes";
 
 const queryClient = new QueryClient();
@@ -50,7 +52,8 @@ export default function App() {
                 </ProtectedRoute>
               }
             >
-              <Route index element={<HomePage />} />
+              {/* Uncomment next line when we have a home page setup */}
+              {/* <Route index element={<HomePage />} /> */}
               <Route path="products">
                 <Route index element={<ProductsListPage />} />
                 <Route path=":id" element={<ProductDetailsPage />} />
@@ -62,9 +65,12 @@ export default function App() {
                 <Route path=":id" element={<ProductVariantDetailsPage />} />
                 <Route path="create" element={<ProductVariantCreatePage />} />
                 <Route path=":id/update" element={<ProductVariantUpdatePage />} />
+                <Route path=":id/add-asset" element={<AddAssetPage />} />
               </Route>
-              <Route path="settings" element={<SettingsPage />} />
+              {/* Uncomment next line when we have a settings page setup */}
+              {/* <Route path="settings" element={<SettingsPage />} /> */}
             </Route>
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </BrowserRouter>
       </QueryClientProvider>
