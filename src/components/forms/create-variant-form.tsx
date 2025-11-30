@@ -23,6 +23,7 @@ export function CreateVariantForm({ onSubmit }: CreateProductFormProps) {
       price: 0,
       productId: "",
       isActive: false,
+      quantity: 0,
     },
   });
 
@@ -49,6 +50,19 @@ export function CreateVariantForm({ onSubmit }: CreateProductFormProps) {
             />
             <FormField
               control={form.control}
+              name="productId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Product ID</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Related Product ID" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name="price"
               render={({ field }) => (
                 <FormItem>
@@ -62,12 +76,12 @@ export function CreateVariantForm({ onSubmit }: CreateProductFormProps) {
             />
             <FormField
               control={form.control}
-              name="productId"
+              name="quantity"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Product ID</FormLabel>
+                  <FormLabel>Quantity</FormLabel>
                   <FormControl>
-                    <Input placeholder="Related Product ID" {...field} />
+                    <Input type="number" {...field} onChange={(e) => field.onChange(e.target.valueAsNumber || 0)} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

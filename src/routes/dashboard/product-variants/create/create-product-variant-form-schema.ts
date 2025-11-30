@@ -5,6 +5,7 @@ export const formSchema = z.object({
   price: z.number(),
   productId: z.string().min(1, "Product ID is required"),
   isActive: z.boolean(),
+  quantity: z.number().optional(),
 });
 
 export type CreateProductVariantFormSchema = z.infer<typeof formSchema>;

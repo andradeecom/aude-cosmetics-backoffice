@@ -18,6 +18,13 @@ export const columns: ColumnDef<ProductVariant>[] = [
     ),
   },
   {
+    accessorKey: "inventory",
+    header: "Inventory",
+    cell: ({ row }) => {
+      return <div className="flex flex-wrap gap-2 max-w-32">{row.original.inventory.quantity}</div>;
+    },
+  },
+  {
     accessorKey: "price",
     header: "Price",
     cell: ({ row }) => {

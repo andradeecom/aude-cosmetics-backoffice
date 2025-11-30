@@ -4,13 +4,62 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardAction }
 import { SubHeader } from "@/components";
 import { useQuery } from "@tanstack/react-query";
 import { ProductVariantService } from "@/services/product-variant.service";
-import type { BaseResponse, ProductVariant } from "@/types";
-import { formatDate } from "@/lib/utils";
+import type { BaseResponse, ProductImage, ProductVariant } from "@/types";
+import { convertFileSize, formatDate } from "@/lib/utils";
 import { VariantDeleteDialog } from "./product-variant-delete";
+import {
+  Dialog,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogContent,
+  DialogFooter,
+  DialogClose,
+} from "@/components/ui/dialog";
+import { ImageDeleteDialog } from "./product-image-delete";
+import { useCallback } from "react";
 
 export const ProductVariantDetailsPage = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+
+  const renderImages = useCallback(
+    (image: ProductImage) => (
+      <div key={image.id} className="w-fit">
+        <Dialog>
+          <DialogTrigger className="cursor-pointer" asChild>
+            <div className="size-40 rounded-lg overflow-hidden">
+              <img src={image.url} alt={image.name} className="w-full h-full object-cover" />
+            </div>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>{image.name}</DialogTitle>
+            </DialogHeader>
+            <>
+              <img src={image.url} alt={image.name} />
+              <p>Alternative text: {image.alt}</p>
+              <p>File type: {image.type}</p>
+              <p>File size: {convertFileSize(image.size)}</p>
+              <p>Primary: {image.isPrimary ? "Yes" : "No"}</p>
+              <p>Created: {formatDate(image.createdAt!)}</p>
+              <p>Updated: {formatDate(image.updatedAt!)}</p>
+              <a href={image.url} target="_blank" rel="noopener noreferrer" className="underline">
+                Link to image
+              </a>
+            </>
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button variant="outline">Close</Button>
+              </DialogClose>
+              <ImageDeleteDialog ImageId={image.id} />
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      </div>
+    ),
+    []
+  );
 
   const {
     data: variant,
@@ -55,56 +104,15 @@ export const ProductVariantDetailsPage = () => {
         }
       />
 
-      <div className="grid gap-4 md:grid-cols-3">
-        <div className="md:col-span-2 space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Variant Information</CardTitle>
-              <CardDescription>Basic details about the variant</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <h3 className="text-lg font-medium">{variant.name}</h3>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Variant Images</CardTitle>
-              <CardDescription>Available images of this variant (add images here too)</CardDescription>
-              <CardAction>
-                <Button
-                  variant="outline"
-                  className="cursor-pointer"
-                  onClick={() => navigate(`/dashboard/product-variants/${id}/add-asset`)}
-                >
-                  Add Image
-                </Button>
-              </CardAction>
-            </CardHeader>
-            <CardContent>
-              {variant.images.length > 0 ? (
-                <div className="grid grid-cols-2 gap-4">
-                  {variant.images.map((image) => (
-                    <div key={image.id} className="size-60">
-                      <img src={image.url} alt={image.name} />
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <p>No images available</p>
-              )}
-            </CardContent>
-          </Card>
-        </div>
-
-        <div className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Additional Information</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-2">
+      <div className="flex flex-col space-y-4">
+        <Card>
+          <CardHeader>
+            <CardTitle>Variant Information</CardTitle>
+            <CardDescription>Basic details about the variant</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <h3 className="text-lg font-medium">{variant.name}</h3>
               <div>
                 <p className="text-sm font-medium text-muted-foreground">Created</p>
                 <p>{formatDate(variant.createdAt!)}</p>
@@ -113,9 +121,32 @@ export const ProductVariantDetailsPage = () => {
                 <p className="text-sm font-medium text-muted-foreground">Last Updated</p>
                 <p>{formatDate(variant.updatedAt!)}</p>
               </div>
-            </CardContent>
-          </Card>
-        </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Variant Images</CardTitle>
+            <CardDescription>Available images of this variant (add images here too)</CardDescription>
+            <CardAction>
+              <Button
+                variant="outline"
+                className="cursor-pointer"
+                onClick={() => navigate(`/dashboard/product-variants/${id}/add-asset`)}
+              >
+                Add Image
+              </Button>
+            </CardAction>
+          </CardHeader>
+          <CardContent>
+            {variant.images.length > 0 ? (
+              <div className="flex flex-wrap gap-4 justify-start items-center">{variant.images.map(renderImages)}</div>
+            ) : (
+              <p>No images available</p>
+            )}
+          </CardContent>
+        </Card>
       </div>
     </section>
   );

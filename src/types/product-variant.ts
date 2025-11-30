@@ -1,4 +1,5 @@
 import type { BaseModel, ProductImage, Product } from "@/types";
+import type { ProductVariantInventory } from "./product-variant-inventory";
 
 export interface ProductVariant extends BaseModel {
   name: string;
@@ -10,4 +11,6 @@ export interface ProductVariant extends BaseModel {
 
   productId: string;
   product?: Product;
+
+  inventory: ProductVariantInventory;
 }
